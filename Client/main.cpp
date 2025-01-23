@@ -18,6 +18,40 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
+
+// 지역
+// 전역
+// 정적 ( 데이터 영역 )
+// 1. 함수 안에
+// 2. 파일
+// 3. 클래스 안에 
+
+// 외부
+
+
+class CClass
+{
+public:
+
+    int m_i;
+    static int m_iStatic; // 정적 멤버 ( 데이터 영역 )
+
+public:
+    void func()
+    {
+        m_i;
+        m_iStatic = 0;
+    }
+
+    // 정적 멤버함수, 객체 없이 호출 가능, this가 없다 (멤버 접근 불가), 정적 멤버는 접근 가능
+    static void FUNC()
+    {
+        m_iStatic = 0;
+    }
+};
+
+int CClass::m_iStatic = 0;
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -28,8 +62,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // TODO: 여기에 코드를 입력합니다.
+    CClass a;
+    a.func();
 
-    // 전역 문자열을 초기화합니다.
+    CClass::FUNC();
+    CClass::m_iStatic = 0;
+    
+    CCore* pCore = CCore::GetInstance();
+    
+        // 전역 문자열을 초기화합니다.
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_CLIENT, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
@@ -70,6 +111,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         {
             // Game 코드 수행
             // 디자인 패턴(설계 유형)
+            // 싱글톤 패턴
         }
 
 	}
