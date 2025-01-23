@@ -45,19 +45,34 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     MSG msg;
 
-    // SetTimer(g_hWnd, 10, 0, nullptr);
+    // PeekMessage
+    // 메세지 유무와 관계 없이 반환
+    // 메세지 큐에서 메세지를 확인한 경우 true, 아닌경우 fale
 
-    // 기본 메시지 루프입니다:
-    while (GetMessage(&msg, nullptr, 0, 0))
-    {
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-        {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+	while (true)
+	{
+		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+		{
+
+            if (WM_QUIT == msg.message)
+                break;
+
+			if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+			{
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}	   
         }
-    }
 
-    // KillTimer(g_hWnd, 10);
+        // 메세지가 발생하지 않는 대부분의 시간
+
+        else
+        {
+            // Game 코드 수행
+            // 디자인 패턴(설계 유형)
+        }
+
+	}
 
     return (int) msg.wParam;
 }
